@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "910389981789",
+    "project_id": "how-to-play-62cf3",
+    "storage_bucket": "how-to-play-62cf3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910389981789:android:4b9a1fb543412fd024d3b4",
+        "android_client_info": {
+          "package_name": "com.android.guicelebrini.howtoplay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910389981789-v6079a7n17mf5coko9sccqvhqq0upp5c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.guicelebrini.howtoplay",
+            "certificate_hash": "d4c55d59f6ece2a1aaf9a7d4d4e1ced6ba80eeba"
+          }
+        },
+        {
+          "client_id": "910389981789-r39k2jk1jmic6a862i8jj3nenvn2942c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVei5Sv6deSsZj3w1lc7fdT-PoTgeKb4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910389981789-r39k2jk1jmic6a862i8jj3nenvn2942c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
