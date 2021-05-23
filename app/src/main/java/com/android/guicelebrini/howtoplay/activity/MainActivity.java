@@ -1,20 +1,25 @@
 package com.android.guicelebrini.howtoplay.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import com.android.guicelebrini.howtoplay.R;
+import com.android.guicelebrini.howtoplay.adapter.AdapterTutoriais;
 import com.android.guicelebrini.howtoplay.model.Tutorial;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerTutoriais;
-    private ArrayList<Tutorial> listaTutoriais = new ArrayList<>();
+    private List<Tutorial> listaTutoriais = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
         montarLista();
 
+        AdapterTutoriais adaptador = new AdapterTutoriais(listaTutoriais);
 
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+
+        recyclerTutoriais.setLayoutManager(layoutManager);
+        recyclerTutoriais.setHasFixedSize(true);
+        recyclerTutoriais.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
+        recyclerTutoriais.setAdapter(adaptador);
 
 
     }
