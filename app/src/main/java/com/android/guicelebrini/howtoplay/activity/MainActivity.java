@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 "https://static.wixstatic.com/media/7e1518_470d563171e8456d9b228e4b89bf7fac~mv2.jpg/v1/fill/w_1000,h_563,al_c,q_90,usm_0.66_1.00_0.01/7e1518_470d563171e8456d9b228e4b89bf7fac~mv2.jpg"
         );
         listaTutoriais.add(tutorial1);
+        tutoriais.push().setValue(tutorial1);
 
         Tutorial tutorial2 = new Tutorial(
                 "Como jogar Valorant para iniciantes",
@@ -69,5 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 "https://s2.glbimg.com/-MFrOgfjaPYQaVlB7SsyfdKCK5U=/0x0:1400x788/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/p/B/vlmXnfQqee9zfEWCI6Ig/valorant.jpg"
         );
         listaTutoriais.add(tutorial2);
+        tutoriais.push().setValue(tutorial2);
     }
 }
