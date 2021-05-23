@@ -48,11 +48,13 @@ public class AdapterTutoriais extends RecyclerView.Adapter<AdapterTutoriais.MyVi
 
         TextView titulo;
         TextView autor;
+        TextView jogo;
         ImageView imagem;
 
         public void set(Tutorial tutorial){
             this.titulo.setText(tutorial.getTitulo());
             this.autor.setText("Por: " + tutorial.getAutor());
+            this.jogo.setText(tutorial.getJogo());
             Picasso.get().load(tutorial.getImagem()).into(this.imagem);
         }
 
@@ -60,6 +62,7 @@ public class AdapterTutoriais extends RecyclerView.Adapter<AdapterTutoriais.MyVi
             super(itemView);
             titulo = itemView.findViewById(R.id.textTitulo);
             autor = itemView.findViewById(R.id.textAutor);
+            jogo = itemView.findViewById(R.id.textJogo);
             imagem = itemView.findViewById(R.id.imageTutorial);
 
 
