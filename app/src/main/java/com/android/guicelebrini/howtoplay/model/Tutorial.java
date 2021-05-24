@@ -8,10 +8,13 @@ public class Tutorial {
     private String descricaoTutorial;
     private String imagem;
 
+    public Tutorial(){}
+
     public Tutorial(String titulo, String autor, String jogo, String descricaoTutorial, String imagem){
         this.setTitulo(titulo);
         this.setAutor(autor);
         this.setJogo(jogo);
+        this.setDescricaoTutorial(descricaoTutorial);
         this.setImagem(imagem);
     }
 

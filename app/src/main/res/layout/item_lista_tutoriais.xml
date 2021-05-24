@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/gray">
 
     <ImageView
         android:id="@+id/imageTutorial"
@@ -24,6 +25,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="titulo"
+        android:textColor="@color/white"
         android:textSize="23sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageTutorial"
@@ -39,6 +41,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="Autor: robson"
+        android:textColor="@color/orange"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageTutorial"
@@ -51,6 +54,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="jogo"
+        android:textColor="@color/orange"
         app:layout_constraintBottom_toBottomOf="@+id/textAutor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textAutor" />

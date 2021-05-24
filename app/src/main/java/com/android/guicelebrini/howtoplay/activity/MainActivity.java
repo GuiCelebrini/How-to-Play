@@ -1,5 +1,6 @@
 package com.android.guicelebrini.howtoplay.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,8 +13,11 @@ import com.android.guicelebrini.howtoplay.R;
 import com.android.guicelebrini.howtoplay.adapter.AdapterTutoriais;
 import com.android.guicelebrini.howtoplay.model.Tutorial;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +25,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerTutoriais;
-    private List<Tutorial> listaTutoriais = new ArrayList<>();
+    private List<Tutorial> listaTutoriais;
     private DatabaseReference referencia = FirebaseDatabase.getInstance().getReference();
+    private AdapterTutoriais adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +36,17 @@ public class MainActivity extends AppCompatActivity {
 
         findViewsById();
 
-        montarLista();
+        //montarLista();
 
-        AdapterTutoriais adaptador = new AdapterTutoriais(listaTutoriais);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         recyclerTutoriais.setLayoutManager(layoutManager);
         recyclerTutoriais.setHasFixedSize(true);
         recyclerTutoriais.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
-        recyclerTutoriais.setAdapter(adaptador);
+
+        montarListaFirebase();
+
 
 
     }
@@ -49,7 +55,29 @@ public class MainActivity extends AppCompatActivity {
         recyclerTutoriais = findViewById(R.id.recyclerTutoriais);
     }
 
-    public void montarLista(){
+    public void montarListaFirebase(){
+        DatabaseReference tutoriais = referencia.child("tutoriais");
+        listaTutoriais = new ArrayList<>();
+
+        tutoriais.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot sn : snapshot.getChildren()){
+                    Tutorial tutorial = sn.getValue(Tutorial.class);
+                    listaTutoriais.add(tutorial);
+                }
+                adaptador = new AdapterTutoriais(listaTutoriais);
+                recyclerTutoriais.setAdapter(adaptador);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    /*public void montarLista(){
         DatabaseReference tutoriais = referencia.child("tutoriais");
 
         Tutorial tutorial1 = new Tutorial(
@@ -71,5 +99,5 @@ public class MainActivity extends AppCompatActivity {
         );
         listaTutoriais.add(tutorial2);
         tutoriais.push().setValue(tutorial2);
-    }
+    }*/
 }
