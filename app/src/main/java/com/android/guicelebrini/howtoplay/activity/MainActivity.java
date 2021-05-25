@@ -47,11 +47,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerTutoriais.setHasFixedSize(true);
         recyclerTutoriais.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
 
-        montarListaFirebase(); //monta a lista e seta o adaptador ao recyclerview
+        //montarListaFirebase(); //monta a lista e seta o adaptador ao recyclerview
 
         adicionarOnClick();
-
-
 
     }
 
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     Tutorial tutorial = sn.getValue(Tutorial.class);
                     tutorial.setKey(sn.getKey());
                     listaTutoriais.add(tutorial);
-                    Log.i("Resultado", tutorial.toString());
+                    //Log.i("Resultado", tutorial.toString());
                 }
                 adaptador = new AdapterTutoriais(listaTutoriais);
                 recyclerTutoriais.setAdapter(adaptador);
@@ -105,4 +103,9 @@ public class MainActivity extends AppCompatActivity {
         }));
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        montarListaFirebase(); //monta a lista e seta o adaptador ao recyclerview
+    }
 }
