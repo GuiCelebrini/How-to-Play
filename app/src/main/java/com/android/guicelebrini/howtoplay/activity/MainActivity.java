@@ -6,12 +6,16 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.android.guicelebrini.howtoplay.R;
 import com.android.guicelebrini.howtoplay.adapter.AdapterTutoriais;
+import com.android.guicelebrini.howtoplay.helper.RecyclerItemClickListener;
 import com.android.guicelebrini.howtoplay.model.Tutorial;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,16 +41,15 @@ public class MainActivity extends AppCompatActivity {
 
         findViewsById();
 
-        //montarLista();
-
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         recyclerTutoriais.setLayoutManager(layoutManager);
         recyclerTutoriais.setHasFixedSize(true);
         recyclerTutoriais.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
 
-        montarListaFirebase();
+        montarListaFirebase(); //monta a lista e seta o adaptador ao recyclerview
+
+        adicionarOnClick();
 
 
 
@@ -80,27 +83,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /*public void montarLista(){
-        DatabaseReference tutoriais = referencia.child("tutoriais");
+    public void adicionarOnClick(){
+        recyclerTutoriais.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerTutoriais, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Tutorial tutorialSelecionado = listaTutoriais.get(position);
+                Intent destino = new Intent(getApplicationContext() ,TutorialActivity.class);
+                destino.putExtra("key", tutorialSelecionado.getKey());
+                startActivity(destino);
+            }
 
-        Tutorial tutorial1 = new Tutorial(
-                "Como sobreviver ao labirinto de Ivaldi",
-                "Guilherme",
-                "God of War",
-                "",
-                "https://static.wixstatic.com/media/7e1518_470d563171e8456d9b228e4b89bf7fac~mv2.jpg/v1/fill/w_1000,h_563,al_c,q_90,usm_0.66_1.00_0.01/7e1518_470d563171e8456d9b228e4b89bf7fac~mv2.jpg"
-        );
-        listaTutoriais.add(tutorial1);
-        tutoriais.push().setValue(tutorial1);
+            @Override
+            public void onLongItemClick(View view, int position) {
 
-        Tutorial tutorial2 = new Tutorial(
-                "Como jogar Valorant para iniciantes",
-                "JettMorgan",
-                "Valorant",
-                "",
-                "https://s2.glbimg.com/-MFrOgfjaPYQaVlB7SsyfdKCK5U=/0x0:1400x788/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/p/B/vlmXnfQqee9zfEWCI6Ig/valorant.jpg"
-        );
-        listaTutoriais.add(tutorial2);
-        tutoriais.push().setValue(tutorial2);
-    }*/
+            }
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        }));
+    }
+
 }
