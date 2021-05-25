@@ -7,6 +7,7 @@ public class Tutorial {
     private String jogo;
     private String descricaoTutorial;
     private String imagem;
+    private String key;
 
     public Tutorial(){}
 
@@ -34,6 +35,10 @@ public class Tutorial {
         this.jogo = jogo;
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public void setDescricaoTutorial(String descricaoTutorial) {
         this.descricaoTutorial = descricaoTutorial;
     }
@@ -54,7 +59,23 @@ public class Tutorial {
         return jogo;
     }
 
+    public String getKey() {
+        return key;
+    }
+
     public String getDescricaoTutorial() {
         return descricaoTutorial;
+    }
+
+    @Override
+    public String toString() {
+        return "Tutorial{" +
+                "titulo='" + titulo + '\'' +
+                ", autor='" + autor + '\'' +
+                ", jogo='" + jogo + '\'' +
+                ", descricaoTutorial='" + descricaoTutorial + '\'' +
+                ", key='" + key + '\'' +
+                ", imagem='" + imagem + '\'' +
+                '}';
     }
 }

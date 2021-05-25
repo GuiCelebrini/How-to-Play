@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.android.guicelebrini.howtoplay.R;
@@ -64,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot sn : snapshot.getChildren()){
                     Tutorial tutorial = sn.getValue(Tutorial.class);
+                    tutorial.setKey(sn.getKey());
                     listaTutoriais.add(tutorial);
+                    Log.i("Resultado", tutorial.toString());
                 }
                 adaptador = new AdapterTutoriais(listaTutoriais);
                 recyclerTutoriais.setAdapter(adaptador);
