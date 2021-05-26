@@ -34,7 +34,9 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logar();
+                if (verificarCampos()) {
+                    logar();
+                }
             }
         });
 
@@ -71,6 +73,17 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public Boolean verificarCampos(){
+        String emailInserido = editEmail.getText().toString();
+        String senhaInserida = editSenha.getText().toString();
+        if (emailInserido.equals("") || senhaInserida.equals("")){
+            Toast.makeText(getApplicationContext(), "Os campos não podem estar vazios", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public void zerarCampos(){

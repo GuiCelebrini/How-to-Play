@@ -34,7 +34,9 @@ public class CadastroActivity extends AppCompatActivity {
         buttonCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cadastrarUsuario();
+                if (verificarCampos()) {
+                    cadastrarUsuario();
+                }
             }
         });
 
@@ -44,6 +46,17 @@ public class CadastroActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmailCadastro);
         editSenha = findViewById(R.id.editSenhaCadastro);
         buttonCadastrar = findViewById(R.id.buttonCadastrar);
+    }
+
+    public Boolean verificarCampos(){
+        String emailInserido = editEmail.getText().toString();
+        String senhaInserida = editSenha.getText().toString();
+        if (emailInserido.equals("") || senhaInserida.equals("")){
+            Toast.makeText(getApplicationContext(), "Os campos não podem estar vazios", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public void cadastrarUsuario(){
