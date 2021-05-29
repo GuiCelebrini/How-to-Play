@@ -72,7 +72,7 @@ public class TutorialActivity extends AppCompatActivity {
 
     public void set(){
         titulo.setText(tutorialEscolhido.getTitulo());
-        autor.setText(tutorialEscolhido.getAutor());
+        autor.setText("Por: " + tutorialEscolhido.getAutor());
         jogo.setText(tutorialEscolhido.getJogo());
         descricao.setText(tutorialEscolhido.getDescricaoTutorial());
         Picasso.get().load(tutorialEscolhido.getImagem()).into(imagem);
