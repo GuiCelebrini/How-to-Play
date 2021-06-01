@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.android.guicelebrini.howtoplay.R;
 import com.android.guicelebrini.howtoplay.helper.UsuarioDAO;
+import com.android.guicelebrini.howtoplay.helper.Validador;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -40,8 +41,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = editEmail.getText().toString();
                 String senha = editSenha.getText().toString();
-                if (verificarCampos(email, senha)) {
+                if (Validador.verificarCampos(email, senha)) {
                     usuarioDAO.logar(email, senha);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Os campos não podem estar vazios", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -63,16 +66,6 @@ public class LoginActivity extends AppCompatActivity {
         buttonCadastro = findViewById(R.id.buttonCadastro);
     }
 
-
-    public Boolean verificarCampos(String emailInserido, String senhaInserida) {
-
-        if (emailInserido.equals("") || senhaInserida.equals("")) {
-            Toast.makeText(getApplicationContext(), "Os campos não podem estar vazios", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        return true;
-    }
 
     public void zerarCampos() {
         editEmail.setText("");

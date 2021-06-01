@@ -48,7 +48,7 @@ public class UsuarioDAO {
                             Toast.makeText(contexto, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
                             ((Activity)contexto).finish();
                         } else {
-                            Toast.makeText(contexto, "Nome de usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(contexto, "Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
