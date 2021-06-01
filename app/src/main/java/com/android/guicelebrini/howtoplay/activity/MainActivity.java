@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import com.android.guicelebrini.howtoplay.R;
 import com.android.guicelebrini.howtoplay.adapter.AdapterTutoriais;
 import com.android.guicelebrini.howtoplay.helper.RecyclerItemClickListener;
+import com.android.guicelebrini.howtoplay.helper.TutorialDAO;
+import com.android.guicelebrini.howtoplay.helper.UsuarioDAO;
 import com.android.guicelebrini.howtoplay.model.Tutorial;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Tutorial> listaTutoriais;
     private DatabaseReference referencia = FirebaseDatabase.getInstance().getReference();
     private AdapterTutoriais adaptador;
+    private TutorialDAO tutorialDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
         findViewsById();
 
+        tutorialDAO = new TutorialDAO();
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         recyclerTutoriais.setLayoutManager(layoutManager);
         recyclerTutoriais.setHasFixedSize(true);
         recyclerTutoriais.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
-
-        //montarListaFirebase(); //monta a lista e seta o adaptador ao recyclerview
 
         adicionarOnClick();
 
@@ -58,27 +61,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void montarListaFirebase(){
-        DatabaseReference tutoriais = referencia.child("tutoriais");
         listaTutoriais = new ArrayList<>();
 
-        tutoriais.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot sn : snapshot.getChildren()){
-                    Tutorial tutorial = sn.getValue(Tutorial.class);
-                    tutorial.setKey(sn.getKey());
-                    listaTutoriais.add(tutorial);
-                    //Log.i("Resultado", tutorial.toString());
-                }
-                adaptador = new AdapterTutoriais(listaTutoriais);
-                recyclerTutoriais.setAdapter(adaptador);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        tutorialDAO.montarLista(listaTutoriais, recyclerTutoriais);
     }
 
     public void adicionarOnClick(){
