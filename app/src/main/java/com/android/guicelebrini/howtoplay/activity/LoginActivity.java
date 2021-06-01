@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.guicelebrini.howtoplay.R;
+import com.android.guicelebrini.howtoplay.helper.UsuarioDAO;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -18,11 +19,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseAuth usuario = FirebaseAuth.getInstance();
     private TextInputEditText editEmail;
     private TextInputEditText editSenha;
     private Button buttonLogin;
     private Button buttonCadastro;
+
+    private UsuarioDAO usuarioDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +32,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
         findViewsById();
+        usuarioDAO = new UsuarioDAO(getApplicationContext());
+
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (verificarCampos()) {
-                    logar();
+                String email = editEmail.getText().toString();
+                String senha = editSenha.getText().toString();
+                if (verificarCampos(email, senha)) {
+                    usuarioDAO.logar(email, senha);
                 }
             }
         });
@@ -50,35 +56,17 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void findViewsById(){
+    public void findViewsById() {
         editEmail = findViewById(R.id.editEmailCadastro);
         editSenha = findViewById(R.id.editSenhaCadastro);
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonCadastro = findViewById(R.id.buttonCadastro);
     }
 
-    public void logar(){
-        String email = editEmail.getText().toString();
-        String senha = editSenha.getText().toString();
 
-        usuario.signInWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Intent destino = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(destino);
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Nome de usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
+    public Boolean verificarCampos(String emailInserido, String senhaInserida) {
 
-    public Boolean verificarCampos(){
-        String emailInserido = editEmail.getText().toString();
-        String senhaInserida = editSenha.getText().toString();
-        if (emailInserido.equals("") || senhaInserida.equals("")){
+        if (emailInserido.equals("") || senhaInserida.equals("")) {
             Toast.makeText(getApplicationContext(), "Os campos não podem estar vazios", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -86,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    public void zerarCampos(){
+    public void zerarCampos() {
         editEmail.setText("");
         editSenha.setText("");
     }

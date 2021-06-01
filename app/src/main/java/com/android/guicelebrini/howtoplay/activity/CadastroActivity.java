@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.guicelebrini.howtoplay.R;
+import com.android.guicelebrini.howtoplay.helper.UsuarioDAO;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -22,6 +23,7 @@ public class CadastroActivity extends AppCompatActivity {
     private TextInputEditText editSenha;
     private Button buttonCadastrar;
 
+    private UsuarioDAO usuarioDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +33,15 @@ public class CadastroActivity extends AppCompatActivity {
 
         findViewsbyId();
 
+        usuarioDAO = new UsuarioDAO(getApplicationContext());
+
         buttonCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (verificarCampos()) {
-                    cadastrarUsuario();
+                String email = editEmail.getText().toString();
+                String senha = editSenha.getText().toString();
+                if (verificarCampos(email, senha)) {
+                    usuarioDAO.cadastrar(email, senha);
                 }
             }
         });
@@ -48,10 +54,9 @@ public class CadastroActivity extends AppCompatActivity {
         buttonCadastrar = findViewById(R.id.buttonCadastrar);
     }
 
-    public Boolean verificarCampos(){
-        String emailInserido = editEmail.getText().toString();
-        String senhaInserida = editSenha.getText().toString();
-        if (emailInserido.equals("") || senhaInserida.equals("")){
+    public Boolean verificarCampos(String emailInserido, String senhaInserida) {
+
+        if (emailInserido.equals("") || senhaInserida.equals("")) {
             Toast.makeText(getApplicationContext(), "Os campos não podem estar vazios", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -59,21 +64,4 @@ public class CadastroActivity extends AppCompatActivity {
         return true;
     }
 
-    public void cadastrarUsuario(){
-        String emailCadastro = editEmail.getText().toString();
-        String senhaCadastro = editSenha.getText().toString();
-
-        usuario.createUserWithEmailAndPassword(emailCadastro, senhaCadastro)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Ops, algo deu errado... Tente novamente", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
 }
