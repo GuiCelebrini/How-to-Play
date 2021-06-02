@@ -35,11 +35,6 @@ public class LoginActivity extends AppCompatActivity {
         findViewsById();
         usuarioDAO = new UsuarioDAO(getApplicationContext());
 
-        if (usuarioDAO.estaLogado()){
-            Intent destino = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(destino);
-        }
-
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,5 +76,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         zerarCampos();
+        if (usuarioDAO.estaLogado()){
+            Intent destino = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(destino);
+        }
     }
 }

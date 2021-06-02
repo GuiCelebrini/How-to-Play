@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.guicelebrini.howtoplay.R;
+import com.android.guicelebrini.howtoplay.helper.TutorialDAO;
 import com.android.guicelebrini.howtoplay.model.Tutorial;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,10 +23,7 @@ public class TutorialActivity extends AppCompatActivity {
     private TextView titulo, autor, jogo, descricao;
     private ImageView imagem;
 
-    private Tutorial tutorialEscolhido;
-
-    private DatabaseReference tutoriais = FirebaseDatabase.getInstance().getReference().child("tutoriais");
-    private DatabaseReference tutorialFirebase;
+    private TutorialDAO tutorialDAO;
 
 
     @Override
@@ -33,12 +31,11 @@ public class TutorialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
 
-        tutorialFirebase = tutoriais.child(recuperarKey());
+        tutorialDAO = new TutorialDAO();
 
         findViewsById();
 
-        recuperarTutorial(); //recupera o tutorial do firebase e adiciona à tela
-
+        tutorialDAO.recuperarESetarTutorial(recuperarKey(), titulo, autor, jogo, descricao, imagem);
     }
 
     public String recuperarKey(){
@@ -53,28 +50,5 @@ public class TutorialActivity extends AppCompatActivity {
         descricao = findViewById(R.id.textActivityDescricao);
 
         imagem = findViewById(R.id.imageActivityTutorial);
-    }
-
-    public void recuperarTutorial(){
-        tutorialFirebase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                tutorialEscolhido = snapshot.getValue(Tutorial.class);
-                set();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    public void set(){
-        titulo.setText(tutorialEscolhido.getTitulo());
-        autor.setText("Por: " + tutorialEscolhido.getAutor());
-        jogo.setText(tutorialEscolhido.getJogo());
-        descricao.setText(tutorialEscolhido.getDescricaoTutorial());
-        Picasso.get().load(tutorialEscolhido.getImagem()).into(imagem);
     }
 }

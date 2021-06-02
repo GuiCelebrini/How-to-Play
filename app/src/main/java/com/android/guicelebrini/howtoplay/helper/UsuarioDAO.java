@@ -32,7 +32,7 @@ public class UsuarioDAO {
                             Log.i("Resultado", "Usuário logado com sucesso");
                             mudarActivity();
                         } else {
-                            Toast.makeText(contexto, "Ops... Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(contexto, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -46,9 +46,8 @@ public class UsuarioDAO {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(contexto, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
-                            ((Activity)contexto).finish();
                         } else {
-                            Toast.makeText(contexto, "Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(contexto, "Ops... Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

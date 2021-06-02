@@ -43,6 +43,7 @@ public class CadastroActivity extends AppCompatActivity {
                 String senha = editSenha.getText().toString();
                 if (Validador.verificarCampos(email, senha)) {
                     usuarioDAO.cadastrar(email, senha);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Os campos não podem estar vazios", Toast.LENGTH_SHORT).show();
                 }
