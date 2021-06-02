@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -33,9 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerTutoriais;
     private List<Tutorial> listaTutoriais;
-    private DatabaseReference referencia = FirebaseDatabase.getInstance().getReference();
-    private AdapterTutoriais adaptador;
     private TutorialDAO tutorialDAO;
+    private UsuarioDAO usuarioDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         findViewsById();
 
         tutorialDAO = new TutorialDAO();
+        usuarioDAO = new UsuarioDAO(getApplicationContext());
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
@@ -62,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void montarListaFirebase(){
         listaTutoriais = new ArrayList<>();
-
         tutorialDAO.montarLista(listaTutoriais, recyclerTutoriais);
     }
 
@@ -92,5 +94,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         montarListaFirebase(); //monta a lista e seta o adaptador ao recyclerview
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item_logout:
+                usuarioDAO.deslogar();
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
