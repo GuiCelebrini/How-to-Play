@@ -22,32 +22,37 @@ public class UsuarioDAO {
         this.contexto = contexto;
     }
 
-    public void logar(String email, String senha) {
+    public UsuarioDAO(){}
+
+    public interface FuncionouCallback {
+        void funcionou(boolean funcionou);
+    }
+
+    public void logar(String email, String senha, FuncionouCallback funcionouCallback) {
 
         usuario.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.i("Resultado", "Usuário logado com sucesso");
-                            mudarActivity();
+                            funcionouCallback.funcionou(true);
                         } else {
-                            Toast.makeText(contexto, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
+                            funcionouCallback.funcionou(false);
                         }
                     }
                 });
 
     }
 
-    public void cadastrar(String email, String senha) {
+    public void cadastrar(String email, String senha, FuncionouCallback funcionouCallback) {
         usuario.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(contexto, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
+                            funcionouCallback.funcionou(true);
                         } else {
-                            Toast.makeText(contexto, "Ops... Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
+                            funcionouCallback.funcionou(false);
                         }
                     }
                 });
@@ -63,11 +68,6 @@ public class UsuarioDAO {
         } else {
             return false;
         }
-    }
-
-    private void mudarActivity(){
-        Intent destino = new Intent(contexto, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        contexto.startActivity(destino);
     }
 
 }

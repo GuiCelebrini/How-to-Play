@@ -34,7 +34,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         findViewsbyId();
 
-        usuarioDAO = new UsuarioDAO(getApplicationContext());
+        usuarioDAO = new UsuarioDAO();
 
         buttonCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,8 +42,17 @@ public class CadastroActivity extends AppCompatActivity {
                 String email = editEmail.getText().toString();
                 String senha = editSenha.getText().toString();
                 if (Validador.verificarCampos(email, senha)) {
-                    usuarioDAO.cadastrar(email, senha);
-                    finish();
+                    usuarioDAO.cadastrar(email, senha, new UsuarioDAO.FuncionouCallback() {
+                        @Override
+                        public void funcionou(boolean funcionou) {
+                            if (funcionou){
+                                Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Oops... Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 } else {
                     Toast.makeText(getApplicationContext(), "Os campos não podem estar vazios", Toast.LENGTH_SHORT).show();
                 }

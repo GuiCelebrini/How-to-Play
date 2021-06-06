@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
         findViewsById();
-        usuarioDAO = new UsuarioDAO(getApplicationContext());
+        usuarioDAO = new UsuarioDAO();
 
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +42,17 @@ public class LoginActivity extends AppCompatActivity {
                 String email = editEmail.getText().toString();
                 String senha = editSenha.getText().toString();
                 if (Validador.verificarCampos(email, senha)) {
-                    usuarioDAO.logar(email, senha);
+                    usuarioDAO.logar(email, senha, new UsuarioDAO.FuncionouCallback() {
+                        @Override
+                        public void funcionou(boolean funcionou) {
+                            if (funcionou){
+                                Intent destino = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(destino);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 } else {
                     Toast.makeText(getApplicationContext(), "Os campos não podem estar vazios", Toast.LENGTH_SHORT).show();
                 }
