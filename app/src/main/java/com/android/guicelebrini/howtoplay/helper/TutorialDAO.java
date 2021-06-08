@@ -1,8 +1,5 @@
 package com.android.guicelebrini.howtoplay.helper;
 
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,7 +10,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -46,29 +42,26 @@ public class TutorialDAO {
         });
     }
 
-    public void recuperarESetarTutorial(String keyRecuperada, TextView titulo, TextView autor, TextView jogo, TextView descricao, ImageView imagem){
+    public interface FuncionouCallback {
+        void funcionou(boolean funcionou, Tutorial tutorial);
+    }
+
+    public void recuperarTutorial(String keyRecuperada, FuncionouCallback funcionouCallback){
         tutorialFirebase = tutoriais.child(keyRecuperada);
 
         tutorialFirebase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Tutorial tutorial = snapshot.getValue(Tutorial.class);
-                set(tutorial, titulo, autor, jogo, descricao, imagem);
+                funcionouCallback.funcionou(true, tutorial);
+                //set(tutorial, titulo, autor, jogo, descricao, imagem);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                funcionouCallback.funcionou(false, null);
             }
         });
-    }
-
-    private void set(Tutorial tutorial, TextView titulo, TextView autor, TextView jogo, TextView descricao, ImageView imagem){
-        titulo.setText(tutorial.getTitulo());
-        autor.setText("Por: " + tutorial.getAutor());
-        jogo.setText(tutorial.getJogo());
-        descricao.setText(tutorial.getDescricaoTutorial());
-        Picasso.get().load(tutorial.getImagem()).into(imagem);
     }
 
 

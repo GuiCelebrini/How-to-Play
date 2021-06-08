@@ -16,11 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class UsuarioDAO {
     private FirebaseAuth usuario = FirebaseAuth.getInstance();
-    private Context contexto;
-
-    public UsuarioDAO(Context contexto) {
-        this.contexto = contexto;
-    }
 
     public UsuarioDAO(){}
 

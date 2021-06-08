@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (funcionou){
                                 Intent destino = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(destino);
+                                finish();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
                             }

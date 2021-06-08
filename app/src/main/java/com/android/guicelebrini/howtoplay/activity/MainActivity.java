@@ -14,7 +14,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.guicelebrini.howtoplay.R;
 import com.android.guicelebrini.howtoplay.adapter.AdapterTutoriais;
@@ -28,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         findViewsById();
 
         tutorialDAO = new TutorialDAO();
-        usuarioDAO = new UsuarioDAO(getApplicationContext());
+        usuarioDAO = new UsuarioDAO();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
