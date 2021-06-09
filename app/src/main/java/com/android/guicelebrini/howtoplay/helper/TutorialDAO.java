@@ -17,7 +17,6 @@ public class TutorialDAO {
 
     private DatabaseReference tutoriais = FirebaseDatabase.getInstance().getReference().child("tutoriais");
     private DatabaseReference tutorialFirebase;
-    private Object Tutorial;
 
 
     public void montarLista(List<Tutorial> listaTutoriais, RecyclerView recyclerTutoriais){
