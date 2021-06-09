@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private List<Tutorial> listaTutoriais;
     private TutorialDAO tutorialDAO;
     private UsuarioDAO usuarioDAO;
+
+    private String queryPesquisa = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void montarListaFirebase(){
         listaTutoriais = new ArrayList<>();
-        tutorialDAO.montarLista(listaTutoriais, recyclerTutoriais);
+        queryPesquisa = "";
+        tutorialDAO.montarLista(listaTutoriais, recyclerTutoriais, queryPesquisa);
     }
 
     public void adicionarOnClick(){
@@ -101,7 +105,10 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                listaTutoriais = new ArrayList<>();
+                queryPesquisa = query;
+                tutorialDAO.montarLista(listaTutoriais, recyclerTutoriais, queryPesquisa);
+                return true;
             }
 
             @Override

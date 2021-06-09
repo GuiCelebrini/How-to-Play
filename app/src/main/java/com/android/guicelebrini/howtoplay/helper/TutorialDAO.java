@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
@@ -19,10 +20,17 @@ public class TutorialDAO {
     private DatabaseReference tutorialFirebase;
 
 
-    public void montarLista(List<Tutorial> listaTutoriais, RecyclerView recyclerTutoriais){
+    public void montarLista(List<Tutorial> listaTutoriais, RecyclerView recyclerTutoriais, String query){
 
+        Query tutoriaisPesquisa;
 
-        tutoriais.addValueEventListener(new ValueEventListener() {
+        if (query.equals("")){
+            tutoriaisPesquisa = tutoriais.orderByChild("jogo");
+        } else {
+            tutoriaisPesquisa = tutoriais.orderByChild("jogo").startAt(query).endAt(query + "\uf8ff");
+        }
+
+        tutoriaisPesquisa.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot sn : snapshot.getChildren()){
