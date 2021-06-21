@@ -25,7 +25,7 @@ import com.android.guicelebrini.howtoplay.model.Tutorial;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//versão beta
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerTutoriais;
